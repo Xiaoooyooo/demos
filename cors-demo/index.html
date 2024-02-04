@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CORS</title>
+    <style>
+      @font-face {
+        font-family: "my font";
+        src: url("http://127.0.0.1:8888/font.ttf") format("truetype");
+      }
+      html {
+        font-family: "my font";
+      }
+    </style>
+  </head>
+  <body>
+    <h1>跨域資源共享（CORS）</h1>
+    <p>測試：使用跨域字体</p>
+    <button class="get">get /api</button>
+    <button class="delete">delete /delete</button>
+    <button class="post">post /post</button>
+    <script>
+      const btnGet = document.querySelector(".get");
+      btnGet.addEventListener("click", () => {
+        fetch("http://127.0.0.1:8888/api", { mode: "cors" })
+          .then((response) => response.text())
+          .then(console.log);
+      });
+
+      const btnDelete = document.querySelector(".delete");
+      btnDelete.addEventListener("click", () => {
+        fetch("http://127.0.0.1:8888/delete", {
+          method: "delete",
+          headers: {
+            "x-hello-world": "hello world",
+          },
+          mode: "cors",
+        })
+          .then((response) => response.text())
+          .then(console.log);
+      });
+
+      const btnPost = document.querySelector(".post");
+      btnPost.addEventListener("click", () => {
+        /**
+         * ReadableStream send to the server
+         * this need http2 server
+         */
+        const stream = new ReadableStream({
+          start(controller) {
+            controller.enqueue("hello world");
+            controller.close();
+          },
+        });
+
+        fetch("http://127.0.0.1:8888/post", {
+          method: "post",
+          headers: {
+            "X-Hello-World": "hello world",
+            // "content-type": "text/plain", // this is allowed by CORS
+            "Content-Type": "application/json", // this is not allowed by CORS
+          },
+          // body: stream, // this is not allowed by CORS
+          // duplex: "half", // use stream as body must has a duplex
+          // body: new FormData(),
+          credentials: "include", // send request with cookies
+        })
+          .then((response) => response.text())
+          .then(console.log);
+      });
+    </script>
+  </body>
+</html>
