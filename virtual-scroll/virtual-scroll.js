@@ -224,6 +224,7 @@ const instance = new VirtualScroll({ container, itemHeight: 45 });
 
 const items = Array(100000)
   .fill(0)
-  .map((el, index) => index);
+  // .map((el, index) => index);
+  .map((el, index) => getRandomText());
 
 instance.setData(items);
