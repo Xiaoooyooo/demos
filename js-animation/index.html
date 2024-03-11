@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .target {
+        height: 100px;
+        width: 100px;
+        /* border-radius: 50%; */
+        background-color: blueviolet;
+        transform-origin: center;
+        /* animation-direction: alternate; */
+        /* animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1); */
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <button data-btn="action" data-action-type="start">start/restart</button>
+      <button data-btn="action" data-action-type="pause">pause</button>
+      <button data-btn="action" data-action-type="resume">resume</button>
+    </div>
+    <div class="target"></div>
+    <script src="./animation-controller.js"></script>
+    <script src="./index.js"></script>
+  </body>
+</html>
